@@ -95,10 +95,6 @@ public static class AspireAzureCosmosDBExtensions
 
         if (CosmosUtils.IsEmulatorConnectionString(settings.ConnectionString))
         {
-            clientOptions.HttpClientFactory = () => new HttpClient(new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            });
             clientOptions.ConnectionMode = ConnectionMode.Gateway;
             clientOptions.LimitToEndpoint = true;
         }
