@@ -27,6 +27,8 @@ internal static class Dcp
     public static string EndpointKind { get; } = "Endpoint";
     public static string ExecutableReplicaSetKind { get; } = "ExecutableReplicaSet";
 
+    public static string LogsSubResource { get; } = "logs";
+
     static Dcp()
     {
         Schema.Add<Executable>(ExecutableKind, "executables");
