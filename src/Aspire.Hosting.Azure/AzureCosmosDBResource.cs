@@ -59,7 +59,5 @@ public class AzureCosmosDBResource(string name, string? connectionString)
 
 file static class AzureCosmosDBEmulatorConnectionString
 {
-    // Add "DisableServerCertificateValidation=True" to the connect string to ignore the SSL certificate.
-    // https://github.com/Azure/azure-cosmos-dotnet-v3/blob/d7a954f8ec216f7494e0bc6ff6762e9fce081822/Microsoft.Azure.Cosmos/src/Fluent/CosmosClientBuilder.cs#L127-L131
-    public static string Create(int port) => $"AccountKey={CosmosConstants.EmulatorAccountKey};AccountEndpoint=https://127.0.0.1:{port};DisableServerCertificateValidation=True;";
+    public static string Create(int port) => $"AccountKey={CosmosConstants.EmulatorAccountKey};AccountEndpoint=https://127.0.0.1:{port};";
 }
