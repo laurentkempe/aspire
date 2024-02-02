@@ -1,5 +1,8 @@
 {
   "resources": {
+    "cosmos": {
+      "type": "azure.cosmosdb.account.v0"
+    },
     "db": {
       "type": "parameter.v0",
       "value": "{db.inputs.value}",

@@ -180,7 +180,7 @@ public static class ResourceBuilderExtensions
 
             if (context.PublisherName == "manifest")
             {
-                if (source.Resource is ResourceWithConnectionStringSurrogate)
+                if (source.Resource.TryGetLastAnnotation<ParameterAnnotation>(out _))
                 {
                     context.EnvironmentVariables[connectionStringName] = $"{{{resource.Name}.value}}";
                 }

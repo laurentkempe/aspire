@@ -368,7 +368,15 @@ public static class AzureResourceExtensions
 
             if (context.PublisherName == "manifest")
             {
-                context.EnvironmentVariables[connectionStringName] = $"{{{resource.Name}.connectionString}}";
+                if (resource.TryGetLastAnnotation<ParameterAnnotation>(out _))
+                {
+                    context.EnvironmentVariables[connectionStringName] = $"{{{resource.Name}.value}}";
+                }
+                else
+                {
+                    context.EnvironmentVariables[connectionStringName] = $"{{{resource.Name}.connectionString}}";
+                }
+
                 return;
             }
 

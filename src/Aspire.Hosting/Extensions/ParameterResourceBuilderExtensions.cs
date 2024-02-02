@@ -68,6 +68,23 @@ public static class ParameterResourceBuilderExtensions
         }, secret: true);
 
         var surrogate = new ResourceWithConnectionStringSurrogate(parameterBuilder.Resource, () => parameterBuilder.Resource.Value);
+        surrogate.Annotations.Add(new ParameterAnnotation(parameterBuilder.Resource));
         return new DistributedApplicationResourceBuilder<IResourceWithConnectionString>(builder, surrogate);
+    }
+
+    public static IResourceBuilder<T> PublishAsParameter<T>(this IResourceBuilder<T> builder, bool secret = false) where T : IResource
+    {
+        var parameter = new ParameterResource(builder.Resource.Name, () => "", secret);
+        builder.WithAnnotation(new ParameterAnnotation(parameter));
+        builder.WithManifestPublishingCallback(context => WriteParameterResourceToManifest(context, parameter));
+        return builder;
+    }
+
+    public static IResourceBuilder<T> PublishAsConnectionString<T>(this IResourceBuilder<T> builder) where T : IResource
+    {
+        var parameter = new ParameterResource(builder.Resource.Name, () => "", secret: true);
+        builder.WithAnnotation(new ParameterAnnotation(parameter));
+        builder.WithManifestPublishingCallback(context => WriteParameterResourceToManifest(context, parameter));
+        return builder;
     }
 }
