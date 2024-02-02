@@ -1,6 +1,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using Microsoft.Extensions.Configuration;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Use launch profiles to change DOTNET_ENVIRONMENT. If you use the "UseConnectionString"
@@ -15,11 +17,12 @@ var builder = DistributedApplication.CreateBuilder(args);
 // The expression below is a bit more complex than the average developer app would
 // probably have, but in our repo we'll probably want to experiment with seperately
 // deployed resources a little bit.
-var db = builder.AddAzureCosmosDB("cosmos")
-                .ExcludeFromManifest()
-                .UseEmulator()
-                .AddDatabase("db")
-                .PublishAsConnectionString();
+var simulateProduction = builder.Configuration.GetValue("SimulateProduction", false);
+var db = builder.Environment.EnvironmentName switch
+{
+    "Production" => builder.AddConnectionString("db"),
+    _ => simulateProduction ? builder.AddConnectionString("db") : builder.AddAzureCosmosDB("cosmos").UseEmulator().AddDatabase("db")
+};
 
 var insertionrows = builder.AddParameter("insertionrows");
 
