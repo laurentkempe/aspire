@@ -466,7 +466,7 @@ public static class ResourceBuilderExtensions
     /// <returns>The <see cref="IResourceBuilder{T}"/>.</returns>
     public static IResourceBuilder<T> ExcludeFromManifest<T>(this IResourceBuilder<T> builder) where T : IResource
     {
-        foreach (var annotation in builder.Resource.Annotations.OfType<ManifestPublishingCallbackAnnotation>())
+        foreach (var annotation in builder.Resource.Annotations.OfType<ManifestPublishingCallbackAnnotation>().ToArray())
         {
             builder.Resource.Annotations.Remove(annotation);
         }
