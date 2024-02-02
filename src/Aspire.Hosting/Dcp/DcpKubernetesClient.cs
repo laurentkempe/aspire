@@ -20,8 +20,8 @@ internal class DcpKubernetesClient : k8s.Kubernetes
         string plural,
         string name,
         string subResource,
-        string namespaceParameter = "",
-        bool? follow = true,
+        string? namespaceParameter,
+        IReadOnlyCollection<(string name, string value)>? queryParams = null,
         CancellationToken cancellationToken = default
     )
     {
@@ -44,8 +44,15 @@ internal class DcpKubernetesClient : k8s.Kubernetes
         {
             url = $"apis/{group}/{version}/namespaces/{namespaceParameter}/{plural}/{name}/{subResource}";
         }
+
         var q = new QueryBuilder();
-        q.Append("follow", follow);
+        if (queryParams != null)
+        {
+            foreach (var (param, paramVal) in queryParams)
+            {
+                q.Append(param, paramVal);
+            }
+        }
         url += q.ToString();
 
         const IReadOnlyDictionary<string, IReadOnlyList<string>>? customHeaders = null;
