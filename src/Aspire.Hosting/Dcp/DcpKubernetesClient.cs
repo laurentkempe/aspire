@@ -12,8 +12,18 @@ internal class DcpKubernetesClient : k8s.Kubernetes
     {
     }
 
-    // TODO: documentation
-    // TODO: stdout vs stderr
+    /// <summary>
+    /// Asynchronously reads a sub-resource from a Kubernetes resource as a stream.
+    /// </summary>
+    /// <param name="group">The API group of the Kubernetes resource.</param>
+    /// <param name="version">The API version of the Kubernetes resource.</param>
+    /// <param name="plural">The plural name (API kind) of the Kubernetes resource, e.g. "executables".</param>
+    /// <param name="name">The name of the Kubernetes resource to use for sub-resource read operation.</param>
+    /// <param name="subResource">The sub-resource to read from the Kubernetes resource.</param>
+    /// <param name="namespaceParameter">The namespace of the Kubernetes resource.
+    /// If null or empty, the resource is assumed to be non-namespaced.</param>
+    /// <param name="queryParams">Optional query parameters to append to the request URL.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task<HttpOperationResponse<Stream>> ReadSubResourceAsStreamAsync(
         string group,
         string version,
